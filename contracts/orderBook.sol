@@ -47,11 +47,14 @@ contract orderBook is registerMeter {
     // find offer by producer (aproducer)
     uint idx = sellIndex[aproducer];
 
+    require(0x0 != idx);
+
     // check if the offer exists...
     if ((sellOrders.length > idx) && (sellOrders[idx].producer == aproducer)) {
       // check if it matches the price
       require(sellOrders[idx].price == aprice);
 
+      sellIndex[msg.sender] = idx;
       // record the user's choice
       buyOrders.push(BuyOrder({
         producer: aproducer,

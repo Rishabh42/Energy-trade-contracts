@@ -1,5 +1,5 @@
-#contract builds
-build
+# contract builds
+build/
 
 # Logs
 logs
