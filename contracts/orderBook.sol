@@ -19,8 +19,14 @@ contract orderBook is registerMeter {
     uint64 timestamp;
   }
 
+  //add address of the universal producer
+  address public univeralProducer = 0x14723A09ACff6D2A60DcdF7aA4AFf308FDDC160C;
+
   SellOrder[] public sellOrders;
   BuyOrder[] public buyOrders;
+
+  //stores the amount of energy supplied by the producer
+  BuyOrder[] public producerEnergy;
 
   mapping(address => uint) public sellIndex;
 
@@ -64,9 +70,19 @@ contract orderBook is registerMeter {
         timestamp: atimestamp
         }));
       emit buyEvent(aproducer, aprice, aenergy, mAddress);
-    } else {
+
+      //checks if the consumer bought from the producer and stores it
+      require(buyOrders[idx].producer == univeralProducer);
+      producerEnergy.push(BuyOrder({
+        producer: aproducer,
+        price: aprice,
+        energy: aenergy,
+        meterAddress: mAddress,
+        timestamp: atimestamp
+        }));
+
+     } else {
       revert();
     }
   }
-
 }
