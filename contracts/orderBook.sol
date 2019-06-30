@@ -29,7 +29,8 @@ contract orderBook is registerMeter {
   BuyOrder[] public producerEnergy;
 
   mapping(address => uint) public sellIndex;
-
+  mapping(address => uint) public buyIndex;
+  
   event sellEvent(address indexed producer, uint32 indexed price, uint64 energy);
   event buyEvent(address indexed producer, uint32 price, uint64 energy, address meterAddress);
 
@@ -60,7 +61,7 @@ contract orderBook is registerMeter {
       // check if it matches the price
       require(sellOrders[idx].price == aprice);
 
-      sellIndex[msg.sender] = idx;
+      buyIndex[msg.sender] = buyOrders.length;
       // record the user's choice
       buyOrders.push(BuyOrder({
         producer: aproducer,
